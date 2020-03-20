@@ -7,8 +7,24 @@ class IssueFilter extends React.Component {
 }
 
 class IssueTable extends React.Component {
+  constructor() {
+    super();
+    this.state = { issues: [] };
+  }
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  loadData() {
+    setTimeout(() => {
+      this.setState({
+        issues: initialIssues});
+      }, 500);
+    }
+
   render() {
-    const issueRows = issues.map(issue =>
+    const issueRows = this.state.issues.map(issue =>
       <IssueRow key={issue.id} issue={issue} />
       );
 13628
@@ -73,7 +89,7 @@ class IssueRow extends React.Component {
   }
 }
 
-const issues = [
+const initialIssues = [
   {
     id: 1, status: 'New', owner: 'Ravan', effort: 5,
     created: new Date('2018-08-15'), due: undefined,
