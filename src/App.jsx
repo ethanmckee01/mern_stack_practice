@@ -11,11 +11,6 @@ const initialIssues = [
   },
 ];
 
-const sampleIssue = {
-  status: 'New', owner: 'Pieta',
-  title: 'Completion date should be optional',
-};
-
 class IssueFilter extends React.Component {
   render() {
     return (
@@ -24,9 +19,8 @@ class IssueFilter extends React.Component {
   }
 }
 
-class IssueRow extends React.Component {
-  render() {
-    const issue = this.props.issue;
+function IssueRow(props) {
+    const issue = props.issue;
     return (
       <tr>
         <td>{issue.id}</td>
@@ -39,15 +33,29 @@ class IssueRow extends React.Component {
       </tr>
     );
   }
-}
 
-class IssueTable extends React.Component {
-  constructor() {
-    super();
-    this.state = { issues: [] };
-    setTimeout(() => {
-      this.createIssue(sampleIssue);
-    }, 2000);
+function IssueTable(props) {
+  const issueRows = props.issues.map(issue =>
+    <IssueRow key={issue.id} issue={issue} />
+    );
+    return (
+      <table className="bordered-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Owner</th>
+            <th>Created</th>
+            <th>Effort</th>
+            <th>Due Date</th>
+            <th>Title</th>
+          </tr>
+        </thead>
+        <tbody>
+          {issueRows}
+        </tbody>
+      </table>
+    );
   }
 
   render() {
@@ -79,13 +87,24 @@ class IssueTable extends React.Component {
 class IssueAdd extends React.Component {
   constructor() {
     super();
-    setTimeout(() => {
-      this.props.createIssue(sampleIssue);
-    }, 2000);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
+    handleSubmit(e) {
+      e.preventDefault();
+      const form = document.forms.issueAdd;
+      const issue = {
+        owner: form.owner.value, title: form.title.value, status: 'New',
+      }
+      this.props.createIssue(issue);
+      form.owner.value = ""; form.title.value = "";
+    }
   render() {
     return (
-      <div>This is a placeholder for a form to add an issue.</div>
+      <form name="issueAdd" onSubmit={this.handleSubmit}>
+        <input type="text" name="owner" placeholder="Owner" />
+        <input type="text" name="title" placeholder="Title" />
+        <button>Add</button>
+      </form>
     );
   }
 }
@@ -96,7 +115,7 @@ class IssueList extends React.Component {
     this.state = { issues: []};
     this.createIssue = this.createIssue.bind(this);
   }
-  
+
   componentDidMount() {
     this.loadData();
   }
