@@ -18,7 +18,7 @@ const count = db.issues.count();
 print('Inserted', count, 'issues');
 
 db.counters.remove({ _id: 'issues' });
-db.counters.insert({ _id: 'issues', current: count })
+db.counters.insert({ _id: 'issues', current: count });
 
 db.issues.createIndex({ id: 1 }, { unique: true });
 db.issues.createIndex({ status: 1 });

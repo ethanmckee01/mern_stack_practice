@@ -7,21 +7,9 @@ const { MongoClient }  = require('mongodb');
 
 const url = 'mongodb+srv://ethan:14mnh311@cluster0-lp0bu.mongodb.net/issuetracker?retryWrites=true';
 
-let aboutMessage = "Issue Tracker API v1.0";
 let db;
 
-const issuesDB = [
-  {
-    id: 1, status: 'New', owner: 'Ravan', effort: 5,
-    created: new Date('2019-01-15'), due: undefined,
-    title: 'Error in console when clicking Add',
-  },
-  {
-    id: 2, status: 'Assigned', owner: 'Eddie', effort: 14,
-    created: new Date('2019-01-16'), due: new Date('2019-02-01'),
-    title: 'Missing bottom border on panel',
-  },
-];
+let aboutMessage = "Issue Tracker API v1.0";
 
 const GraphQLDate = new GraphQLScalarType({
   name: 'GraphQLDate',
@@ -71,23 +59,6 @@ async function getNextSequence(name) {
   return result.value.current;
 }
 
-async function issueAdd(_, { issue }) {
-  issueValidate(issue);
-  issue.created = new Date();
-  issue.id = await getNextSequence('issues');
-  const result = await db.collection('issues').insertOne(issue);
-  const savedIssue = await db.collection('issues')
-  .findOne({ _id: result.insertedId });
-  return savedIssue;
-}
-
-async function connectToDb() {
-  const client = new MongoClient(url, { useNewUrlParser: true});
-  await client.connect();
-  console.log('Connected to MongoDB at', url);
-  db = client.db();
-}
-
 function issueValidate(issue) {
   const errors = [];
   if (issue.title.length < 3) {
@@ -101,6 +72,24 @@ function issueValidate(issue) {
   }
 }
 
+async function issueAdd(_, { issue }) {
+  issueValidate(issue);
+  issue.created = new Date();
+  issue.id = await getNextSequence('issues');
+
+  const result = await db.collection('issues').insertOne(issue);
+  const savedIssue = await db.collection('issues')
+    .findOne({ _id: result.insertedId });
+  return savedIssue;
+}
+
+async function connectToDb() {
+  const client = new MongoClient(url, { useNewUrlParser: true });
+  await client.connect();
+  console.log('Connected to MongoDB at', url);
+  db = client.db();
+}
+
 const server = new ApolloServer({
   typeDefs: fs.readFileSync('./server/schema.graphql', 'utf-8'),
   resolvers,
@@ -109,8 +98,6 @@ const server = new ApolloServer({
     return error;
   },
 });
-
-
 
 const app = express();
 
