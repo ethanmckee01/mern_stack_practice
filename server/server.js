@@ -3,7 +3,7 @@ const express = require('express');
 const { ApolloServer, UserInputError } = require('apollo-server-express');
 const { GraphQLScalarType } = require('graphql');
 const { Kind } = require('graphql/language');
-const { MongoClient }  = require('mongodb');
+const { MongoClient } = require('mongodb');
 
 const url = 'mongodb+srv://ethan:14mnh311@cluster0-lp0bu.mongodb.net/issuetracker?retryWrites=true';
 
