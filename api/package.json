@@ -1,12 +1,10 @@
 {
-  "name": "pro-mern-stack-2",
+  "name": "pro-mern-stack-2-api",
   "version": "1.0.0",
-  "description": "Pro MERN Stack (2nd Edition)",
+  "description": "Pro MERN Stack (2nd Edition) API",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -w server -e js,graphql server/server.js",
-    "compile": "babel src --out-dir public",
-    "watch": "babel src --out-dir public --watch --verbose",
+    "start": "nodemon -e js,graphql server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,14 +17,8 @@
   "dependencies": {
     "apollo-server-express": "^2.3.1",
     "express": "^4.16.4",
-    "graphql": "^0.13.2",
-    "mongodb": "^3.5.6",
+    "graphql": "^14.6.0",
+    "mongodb": "^3.1.10",
     "nodemon": "^1.18.9"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.3",
-    "@babel/preset-react": "^7.0.0"
   }
 }
