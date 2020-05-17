@@ -4,7 +4,7 @@
  * localhost:
  *   mongo issuetracker scripts/init.mongo.js
  * Atlas:
- *   mongo mongodb+srv://user:pwd@xxx.mongodb.net/issuetracker scripts/init.mongo.js
+ *   mongo mongodb+srv://ethan:14mnh311@cluster0-lp0bu.mongodb.net/issuetracker scripts/init.mongo.js
  * MLab:
  *   mongo mongodb://user:pwd@xxx.mlab.com:33533/issuetracker scripts/init.mongo.js
  */
